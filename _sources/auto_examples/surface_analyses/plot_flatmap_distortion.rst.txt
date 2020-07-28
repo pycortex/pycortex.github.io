@@ -65,10 +65,6 @@ the original.
     /home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/scipy/sparse/linalg/dsolve/linsolve.py:318: SparseEfficiencyWarning: splu requires CSC matrix format
       warn('splu requires CSC matrix format', SparseEfficiencyWarning)
     Generating distortion surface info...
-    /home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/scipy/sparse/linalg/dsolve/linsolve.py:318: SparseEfficiencyWarning: splu requires CSC matrix format
-      warn('splu requires CSC matrix format', SparseEfficiencyWarning)
-    /home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/scipy/sparse/linalg/dsolve/linsolve.py:318: SparseEfficiencyWarning: splu requires CSC matrix format
-      warn('splu requires CSC matrix format', SparseEfficiencyWarning)
 
 
 
@@ -128,7 +124,7 @@ the original.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  40.824 seconds)
+   **Total running time of the script:** ( 0 minutes  46.982 seconds)
 
 
 .. _sphx_glr_download_auto_examples_surface_analyses_plot_flatmap_distortion.py:

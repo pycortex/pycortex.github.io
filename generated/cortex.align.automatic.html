@@ -39,7 +39,7 @@
 <h1>cortex.align.automatic<a class="headerlink" href="#cortex-align-automatic" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="cortex.align.automatic">
-<code class="sig-prename descclassname">cortex.align.</code><code class="sig-name descname">automatic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">subject</span></em>, <em class="sig-param"><span class="n">xfmname</span></em>, <em class="sig-param"><span class="n">reference</span></em>, <em class="sig-param"><span class="n">noclean</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">bbrtype</span><span class="o">=</span><span class="default_value">'signed'</span></em>, <em class="sig-param"><span class="n">pre_flirt_args</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">use_fs_bbr</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cortex/align.html#automatic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cortex.align.automatic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cortex.align.</code><code class="sig-name descname">automatic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">subject</span></em>, <em class="sig-param"><span class="n">xfmname</span></em>, <em class="sig-param"><span class="n">reference</span></em>, <em class="sig-param"><span class="n">noclean</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">bbrtype</span><span class="o">=</span><span class="default_value">'signed'</span></em>, <em class="sig-param"><span class="n">pre_flirt_args</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">use_fs_bbr</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">epi_mask</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cortex/align.html#automatic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cortex.align.automatic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an automatic alignment using the FLIRT boundary-based alignment (BBR) from FSL.</p>
 <p>If <cite>noclean</cite>, intermediate files will not be removed from /tmp. The <cite>reference</cite> image and resulting
 transform called <cite>xfmname</cite> will be automatically stored in the database.</p>
@@ -67,8 +67,9 @@ and the returned value will be the name of the temp directory. Default False.</p
 </dd>
 <dt><strong>use_fs_bbr</strong><span class="classifier">bool, optional</span></dt><dd><p>If True will use freesurfer bbregister instead of FSL BBR.</p>
 </dd>
-<dt><strong>save_dat</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, will save the register.dat file from freesurfer bbregister into
-freesurfer’s $SUBJECTS_DIR/subject/tmp.</p>
+<dt><strong>epi_mask</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, and use_fs_bbr is True, then the flag –epi-mask is passed to bbregister
+to mask out areas with spatial distortions. This setting is to be used whenever
+the reference was not distortion corrected.</p>
 </dd>
 </dl>
 </dd>

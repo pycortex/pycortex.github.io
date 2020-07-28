@@ -127,8 +127,6 @@ introduced by flattening the globe onto a map:
     Adding vertex 53144..
     Adding vertex 111002..
     Adding vertex 66629..
-    /home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/scipy/sparse/linalg/dsolve/linsolve.py:318: SparseEfficiencyWarning: splu requires CSC matrix format
-      warn('splu requires CSC matrix format', SparseEfficiencyWarning)
     Adding vertex 33559..
     Adding vertex 19745..
     Adding vertex 130690..
@@ -223,7 +221,7 @@ introduced by flattening the globe onto a map:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  49.250 seconds)
+   **Total running time of the script:** ( 0 minutes  55.736 seconds)
 
 
 .. _sphx_glr_download_auto_examples_surface_analyses_plot_tissots_indicatrix.py:
