@@ -1,4 +1,4 @@
-cortex.webgl.make\_static
+﻿cortex.webgl.make\_static
 =========================
 
 .. currentmodule:: cortex.webgl
