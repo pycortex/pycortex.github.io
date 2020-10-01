@@ -33,8 +33,6 @@ connecting lines.
  .. code-block:: none
 
     Generating a flatmap cache
-    /home/travis/virtualenv/python3.7.1/lib/python3.7/importlib/_bootstrap.py:219: RuntimeWarning: numpy.ufunc size changed, may indicate binary incompatibility. Expected 192 from C header, got 216 from PyObject
-      return f(*args, **kwds)
     Shared voxel array not found, generating...
     Caching mapper...
     /home/travis/build/gallantlab/pycortex/cortex/mapper/samplers.py:10: RuntimeWarning: invalid value encountered in greater
@@ -80,7 +78,7 @@ connecting lines.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 2 minutes  2.888 seconds)
+   **Total running time of the script:** ( 2 minutes  3.259 seconds)
 
 
 .. _sphx_glr_download_auto_examples_quickflat_plot_connected_vertices.py:
