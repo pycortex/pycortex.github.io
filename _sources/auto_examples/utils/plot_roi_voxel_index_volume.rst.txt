@@ -65,7 +65,7 @@ ROIs in the right hemisphere will have positive values.
     Found 100.00% of M1M
     /home/travis/build/gallantlab/pycortex/cortex/utils.py:621: RuntimeWarning: Mean of empty slice.
       pct_coverage[roi] = vert_in_scan.mean() * 100
-    /home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/numpy/core/_methods.py:85: RuntimeWarning: invalid value encountered in double_scalars
+    /home/travis/virtualenv/python3.8.0/lib/python3.8/site-packages/numpy/core/_methods.py:161: RuntimeWarning: invalid value encountered in double_scalars
       ret = ret.dtype.type(ret / rcount)
     Found nan% of V3A
     Found nan% of V3B
@@ -142,7 +142,7 @@ ROIs in the right hemisphere will have positive values.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.498 seconds)
+   **Total running time of the script:** ( 0 minutes  9.722 seconds)
 
 
 .. _sphx_glr_download_auto_examples_utils_plot_roi_voxel_index_volume.py:
