@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Surface Database &#8212; pycortex 1.3.0.dev15 documentation</title>
+    <title>Surface Database &#8212; pycortex 1.3.0.dev16 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -76,12 +76,12 @@
 <h3>Command access<a class="headerlink" href="#command-access" title="Permalink to this headline">¶</a></h3>
 <p>For the direct command access, there are two call signatures:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cortex</span>
-<span class="n">pts</span><span class="p">,</span> <span class="n">polys</span> <span class="o">=</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get_surf</span><span class="p">(</span><span class="s1">&#39;AH&#39;</span><span class="p">,</span> <span class="s1">&#39;fiducial&#39;</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pts</span><span class="p">,</span> <span class="n">polys</span> <span class="o">=</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get_surf</span><span class="p">(</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;fiducial&#39;</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This returns the points and polygons of the given subject and surface type. Hemisphere defaults to “both”, and since <code class="docutils literal notranslate"><span class="pre">merge</span></code> is true, they are vertically stacked <strong>left, then right</strong>. The polygon indices are shifted up for the right hemisphere to make a single unified geometry.</p>
 <p>With <code class="docutils literal notranslate"><span class="pre">merge=False</span></code>, the return looks different:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get_surf</span><span class="p">(</span><span class="s1">&#39;AH&#39;</span><span class="p">,</span> <span class="s1">&#39;fiducial&#39;</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get_surf</span><span class="p">(</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;fiducial&#39;</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">lpts</span><span class="p">,</span> <span class="n">lpolys</span> <span class="o">=</span> <span class="n">left</span>
 <span class="n">rpts</span><span class="p">,</span> <span class="n">rpolys</span> <span class="o">=</span> <span class="n">right</span>
 </pre></div>
@@ -107,15 +107,15 @@
  <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">filestore</span>  <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">surfaces</span>
  <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">subject</span>    <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">transforms</span>
 
-<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">AH</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span>
  <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">flat</span>     <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">pia</span>
  <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">inflated</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">wm</span>
 </pre></div>
 </div>
 <p>Selecting “surfaces” gives you a list of all surface types associated with that subject.</p>
 <p>Finally, selecting one surface type will give you two new functions: get, and show:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">AH</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">inflated</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">AH</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">fiducial</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">inflated</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">S1</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">fiducial</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -134,7 +134,7 @@
 <p>Similar to the surfaces, transforms can be access through two methods: direct command access, and the tab interface.</p>
 <p>Command access looks like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cortex</span>
-<span class="n">xfm</span> <span class="o">=</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get_xfm</span><span class="p">(</span><span class="s1">&#39;AH&#39;</span><span class="p">,</span> <span class="s1">&#39;AH_huth&#39;</span><span class="p">,</span> <span class="n">xfmtype</span><span class="o">=</span><span class="s1">&#39;coord&#39;</span><span class="p">)</span>
+<span class="n">xfm</span> <span class="o">=</span> <span class="n">cortex</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get_xfm</span><span class="p">(</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;fullhead&#39;</span><span class="p">,</span> <span class="n">xfmtype</span><span class="o">=</span><span class="s1">&#39;coord&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Tab complete looks like this:</p>
