@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cortex.webgl.view &#8212; pycortex 1.3.0.dev17 documentation</title>
+    <title>cortex.webgl.view &#8212; pycortex 1.3.0.dev18 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/gallery.css" />
@@ -41,6 +41,7 @@
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>  <span class="c1"># python 2</span>
     <span class="kn">from</span> <span class="nn">Queue</span> <span class="kn">import</span> <span class="n">Queue</span>
     <span class="kn">from</span> <span class="nn">ConfigParser</span> <span class="kn">import</span> <span class="n">NoOptionError</span>
@@ -489,14 +490,21 @@
                 <span class="n">svgfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">JSMixer</span><span class="p">(</span><span class="n">serve</span><span class="o">.</span><span class="n">JSProxy</span><span class="p">):</span>
-        <span class="c1"># Enumerated list of properties settable for views. There may be a way to get this</span>
-        <span class="c1"># from the javascript object, but I (ML) don&#39;t know how.</span>
-        <span class="c1"># Old properites (some of which still need re-implementing in javascript)</span>
-        <span class="c1"># view_props = [&#39;altitude&#39;, &#39;azimuth&#39;, &#39;target&#39;, &#39;mix&#39;, &#39;radius&#39;, &#39;pivot&#39;,</span>
-        <span class="c1">#     &#39;visL&#39;, &#39;visR&#39;, &#39;alpha&#39;, &#39;rotationR&#39;, &#39;rotationL&#39;, &#39;projection&#39;,</span>
-        <span class="c1">#     &#39;volume_vis&#39;, &#39;frame&#39;, &#39;slices&#39;]</span>
         <span class="nd">@property</span>
         <span class="k">def</span> <span class="nf">view_props</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;An enumerated list of settable properties for views. </span>
+<span class="sd">            There may be a way to get this from the javascript object, </span>
+<span class="sd">            but I (ML) don&#39;t know how.</span>
+
+<span class="sd">            There may be additional properties we want to set in views</span>
+<span class="sd">            and animations; those must be added here.</span>
+
+<span class="sd">            Old property list that used to be settable before webgl refactor:</span>
+<span class="sd">            view_props = [&#39;altitude&#39;, &#39;azimuth&#39;, &#39;target&#39;, &#39;mix&#39;, &#39;radius&#39;, &#39;pivot&#39;,</span>
+<span class="sd">                &#39;visL&#39;, &#39;visR&#39;, &#39;alpha&#39;, &#39;rotationR&#39;, &#39;rotationL&#39;, &#39;projection&#39;,</span>
+<span class="sd">                &#39;volume_vis&#39;, &#39;frame&#39;, &#39;slices&#39;]</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
             <span class="n">_camera_props</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;camera.</span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">_controls</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
             <span class="n">_subject</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">_folders</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">_surface</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">surface</span><span class="p">,</span> <span class="n">_subject</span><span class="p">)</span>
@@ -504,14 +512,7 @@
             <span class="n">_curvature_props</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;surface.</span><span class="si">{subject}</span><span class="s1">.curvature.brightness&#39;</span><span class="p">,</span>
                                 <span class="s1">&#39;surface.</span><span class="si">{subject}</span><span class="s1">.curvature.contrast&#39;</span><span class="p">,</span>
                                 <span class="s1">&#39;surface.</span><span class="si">{subject}</span><span class="s1">.curvature.smoothness&#39;</span><span class="p">]</span>
-            <span class="c1">#view_props = _camera_props + _surface_props</span>
             <span class="k">return</span> <span class="n">_camera_props</span> <span class="o">+</span> <span class="n">_surface_props</span> <span class="o">+</span> <span class="n">_curvature_props</span>
-            <span class="c1">#[&#39;camera.altitude&#39;, &#39;camera.azimuth&#39;, &#39;camera.target&#39;, &#39;camera.radius&#39;,</span>
-            <span class="c1">#&#39;surface.{subject}.unfold&#39;, &#39;surface.{subject}.pivot&#39;, &#39;surface.{subject}.depth&#39;,</span>
-            <span class="c1">#&#39;surface.{subject}.shift&#39;, &#39;surface.{subject}.left&#39;, &#39;surface.{subject}.right&#39;]</span>
-            <span class="c1">#&#39;surface.{subject}.specularity&#39;, &#39;frame&#39;, &#39;bg_alpha&#39;</span>
-            <span class="c1">#&#39;visL&#39;, &#39;visR&#39;, &#39;alpha&#39;, &#39;rotationR&#39;, &#39;rotationL&#39;, &#39;projection&#39;,</span>
-            <span class="c1">#&#39;volume_vis&#39;, &#39;frame&#39;, &#39;slices&#39;]</span>
 
         <span class="k">def</span> <span class="nf">_set_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Low-level command: sets view parameters in the current viewer</span>
@@ -519,33 +520,26 @@
 <span class="sd">            Sets each the state of each keyword argument provided. View parameters</span>
 <span class="sd">            that can be set include all parameters in the data.gui in the html view.</span>
 
-<span class="sd">            # OLD delete me :</span>
-<span class="sd">            #altitude, azimuth, target, mix, radius, visL, visR, pivot,</span>
-<span class="sd">            #(L/R hemisphere visibility), alpha (background alpha),</span>
-<span class="sd">            #rotationL, rotationR (L/R hemisphere rotation, [x, y, z])</span>
-
-<span class="sd">            Notes</span>
-<span class="sd">            -----</span>
-<span class="sd">            [the following is no longer true, I think - but check on this before deleting]</span>
-<span class="sd">            Args must be lists instead of scalars, e.g. `azimuth`=[90]</span>
-<span class="sd">            This could be changed, but this is a hidden function, called by</span>
-<span class="sd">            higher-level functions that load .json files, which have the</span>
-<span class="sd">            parameters in lists by default. So it&#39;s annoying either way.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="c1"># Set unfolding level first, as it interacts with other arguments</span>
             <span class="n">subject_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">_folders</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="c1"># Better to only self.view_props once; it interacts with javascript, </span>
+            <span class="c1"># don&#39;t want to do that too often, it leads to glitches.</span>
+            <span class="n">vw_props</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view_props</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="n">subject_list</span><span class="p">:</span>
                 <span class="k">if</span> <span class="s1">&#39;surface.</span><span class="si">{subject}</span><span class="s1">.unfold&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
                     <span class="n">unfold</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;surface.</span><span class="si">{subject}</span><span class="s1">.unfold&#39;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;surface.</span><span class="si">{subject}</span><span class="s1">.unfold&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">),</span> <span class="n">unfold</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">view_props</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">vw_props</span><span class="p">:</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unknown parameter </span><span class="si">%s</span><span class="s1">!&#39;</span><span class="o">%</span><span class="n">k</span><span class="p">)</span>
                         <span class="k">continue</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;</span><span class="si">{subject}</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">k</span> <span class="k">else</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                        <span class="c1"># Wait for webgl. Wait for it. .... WAAAAAIIIT.</span>
+                        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.03</span><span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">_capture_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_capture_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Low-level command: returns a dict of current view parameters</span>
 
 <span class="sd">            Retrieves the following view parameters from current viewer:</span>
@@ -553,8 +547,13 @@
 <span class="sd">            altitude, azimuth, target, mix, radius, visL, visR, alpha,</span>
 <span class="sd">            rotationR, rotationL, projection, pivot</span>
 
-<span class="sd">            `time` appends a &#39;time&#39; key into the view (for use in animations)</span>
-
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            frame_time : scalar</span>
+<span class="sd">                time (in seconds) to specify for this frame.</span>
+<span class="sd">            </span>
+<span class="sd">            Notes</span>
+<span class="sd">            -----</span>
 <span class="sd">            If multiple subjects are present, only retrieves view for first subject.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">view</span> <span class="o">=</span> <span class="p">{}</span>
@@ -562,13 +561,15 @@
             <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">view_props</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">view</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;</span><span class="si">{subject}</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">else</span> <span class="n">p</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="c1"># Wait for webgl.</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.03</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
                     <span class="c1"># TO DO: Fix this hack with an error class in serve.py &amp; catch it here</span>
                     <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="c1">#msg = &quot;Cannot read property &#39;undefined&#39;&quot;</span>
                     <span class="c1">#if err.message[:len(msg)] != msg:</span>
                     <span class="c1">#    raise err</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">view</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span>
+            <span class="k">if</span> <span class="n">frame_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">view</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame_time</span>
             <span class="k">return</span> <span class="n">view</span>
 
         <span class="k">def</span> <span class="nf">save_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">is_overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -727,7 +728,7 @@
             <span class="n">fr</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
             <span class="n">func</span> <span class="o">=</span> <span class="n">mixes</span><span class="p">[</span><span class="n">interpolation</span><span class="p">]</span>
-            <span class="n">skip_props</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;surface.</span><span class="si">{subject}</span><span class="s1">.right&#39;</span><span class="p">,</span> <span class="s1">&#39;surface.</span><span class="si">{subject}</span><span class="s1">.left&#39;</span><span class="p">,</span> <span class="p">]</span> <span class="c1">#&#39;projection&#39;,</span>
+            <span class="c1">#skip_props = [&#39;surface.{subject}.right&#39;, &#39;surface.{subject}.left&#39;, ] #&#39;projection&#39;,</span>
             <span class="c1"># Get keyframes</span>
             <span class="n">keyframes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">keyframes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>
             <span class="c1"># Normalize all time to frame rate</span>
@@ -743,9 +744,9 @@
                 <span class="n">tdif</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">t1</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span>
                 <span class="c1"># Check whether to continue frame sequence to endpoint</span>
                 <span class="n">use_endpoint</span> <span class="o">=</span> <span class="n">keyframes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">end</span>
-                <span class="n">nvalues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tdif</span><span class="o">/</span><span class="n">fs</span><span class="p">)</span>
+                <span class="n">nvalues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tdif</span><span class="o">/</span><span class="n">fs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">use_endpoint</span><span class="p">:</span>
-                    <span class="n">nvalues</span> <span class="o">+=</span><span class="mi">1</span>
+                    <span class="n">nvalues</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">fr_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nvalues</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">use_endpoint</span><span class="p">)</span>
                 <span class="c1"># Interpolate between values</span>
                 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">fr_time</span><span class="p">:</span>
@@ -753,7 +754,7 @@
                     <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">start</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="k">if</span> <span class="n">prop</span><span class="o">==</span><span class="s1">&#39;time&#39;</span><span class="p">:</span>
                             <span class="k">continue</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="n">prop</span> <span class="ow">in</span> <span class="n">skip_props</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span> <span class="o">==</span> <span class="n">end</span><span class="p">[</span><span class="n">prop</span><span class="p">])</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="n">prop</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,)</span> <span class="o">+</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
                             <span class="n">frame</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span> <span class="o">=</span> <span class="n">start</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span>
                             <span class="k">continue</span>
                         <span class="n">val</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="n">prop</span><span class="p">]),</span> <span class="n">a</span><span class="p">(</span><span class="n">end</span><span class="p">[</span><span class="n">prop</span><span class="p">]),</span> <span class="n">t</span><span class="p">)</span>
@@ -764,8 +765,9 @@
                     <span class="n">allframes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">allframes</span>
 
-        <span class="k">def</span> <span class="nf">make_movie_views</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">animation</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;brainmovie</span><span class="si">%07d</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                      <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">make_movie_views</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">animation</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;brainmovie</span><span class="si">%07d</span><span class="s2">.png&quot;</span><span class="p">,</span> 
+            <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">frame_sleep</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+            <span class="n">frame_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Renders movie frames for animation of mesh movement</span>
 
 <span class="sd">            Makes an animation (for example, a transition between inflated and</span>
@@ -818,15 +820,12 @@
 <span class="sd">            # Animate! (use default settings)</span>
 <span class="sd">            js_handle.make_movie(animation)</span>
 <span class="sd">            &quot;&quot;&quot;</span>
-            <span class="kn">import</span> <span class="nn">time</span>
             <span class="n">allframes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_anim_seq</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="n">interpolation</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">fr</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">allframes</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">fr</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">allframes</span><span class="p">[</span><span class="n">frame_start</span><span class="p">:],</span> <span class="n">frame_start</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_set_view</span><span class="p">(</span><span class="o">**</span><span class="n">frame</span><span class="p">)</span>
-                <span class="c1"># Set background alpha, color??</span>
-                <span class="c1">#self.renderer.setClearColor([0,0,0], alpha)</span>
-                <span class="c1">#self.saveIMG(filename%(fr+offset+1), size=size)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">frame_sleep</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">getImage</span><span class="p">(</span><span class="n">filename</span><span class="o">%</span><span class="p">(</span><span class="n">fr</span><span class="o">+</span><span class="n">offset</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">frame_sleep</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">PickerHandler</span><span class="p">(</span><span class="n">web</span><span class="o">.</span><span class="n">RequestHandler</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
