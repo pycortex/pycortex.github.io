@@ -1,0 +1,6 @@
+﻿cortex.freesurfer.get\_surf
+===========================
+
+.. currentmodule:: cortex.freesurfer
+
+.. autofunction:: get_surf

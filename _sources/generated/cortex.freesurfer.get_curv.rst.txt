@@ -1,0 +1,6 @@
+﻿cortex.freesurfer.get\_curv
+===========================
+
+.. currentmodule:: cortex.freesurfer
+
+.. autofunction:: get_curv

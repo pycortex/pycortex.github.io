@@ -1,0 +1,6 @@
+﻿cortex.freesurfer.autorecon
+===========================
+
+.. currentmodule:: cortex.freesurfer
+
+.. autofunction:: autorecon

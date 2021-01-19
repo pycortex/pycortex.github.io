@@ -1,0 +1,6 @@
+﻿cortex.quickflat.make\_svg
+==========================
+
+.. currentmodule:: cortex.quickflat
+
+.. autofunction:: make_svg

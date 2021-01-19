@@ -1,0 +1,6 @@
+﻿cortex.align.manual
+===================
+
+.. currentmodule:: cortex.align
+
+.. autofunction:: manual

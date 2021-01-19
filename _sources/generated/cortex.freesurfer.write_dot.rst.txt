@@ -1,0 +1,6 @@
+﻿cortex.freesurfer.write\_dot
+============================
+
+.. currentmodule:: cortex.freesurfer
+
+.. autofunction:: write_dot

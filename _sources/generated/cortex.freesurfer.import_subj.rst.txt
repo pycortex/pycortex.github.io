@@ -1,0 +1,6 @@
+﻿cortex.freesurfer.import\_subj
+==============================
+
+.. currentmodule:: cortex.freesurfer
+
+.. autofunction:: import_subj

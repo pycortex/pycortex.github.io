@@ -1,0 +1,6 @@
+﻿cortex.anat.whitematter
+=======================
+
+.. currentmodule:: cortex.anat
+
+.. autofunction:: whitematter

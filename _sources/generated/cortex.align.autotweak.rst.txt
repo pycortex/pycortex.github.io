@@ -1,0 +1,6 @@
+﻿cortex.align.autotweak
+======================
+
+.. currentmodule:: cortex.align
+
+.. autofunction:: autotweak

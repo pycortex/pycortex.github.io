@@ -1,0 +1,6 @@
+﻿cortex.utils.get\_cmap
+======================
+
+.. currentmodule:: cortex.utils
+
+.. autofunction:: get_cmap

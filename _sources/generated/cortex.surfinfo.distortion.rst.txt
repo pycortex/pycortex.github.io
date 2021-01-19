@@ -1,0 +1,6 @@
+﻿cortex.surfinfo.distortion
+==========================
+
+.. currentmodule:: cortex.surfinfo
+
+.. autofunction:: distortion

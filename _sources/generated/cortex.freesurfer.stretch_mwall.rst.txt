@@ -1,0 +1,6 @@
+﻿cortex.freesurfer.stretch\_mwall
+================================
+
+.. currentmodule:: cortex.freesurfer
+
+.. autofunction:: stretch_mwall

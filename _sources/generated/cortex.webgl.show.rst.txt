@@ -1,0 +1,6 @@
+﻿cortex.webgl.show
+=================
+
+.. currentmodule:: cortex.webgl
+
+.. autofunction:: show

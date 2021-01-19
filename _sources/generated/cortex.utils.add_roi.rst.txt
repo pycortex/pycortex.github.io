@@ -1,0 +1,6 @@
+﻿cortex.utils.add\_roi
+=====================
+
+.. currentmodule:: cortex.utils
+
+.. autofunction:: add_roi

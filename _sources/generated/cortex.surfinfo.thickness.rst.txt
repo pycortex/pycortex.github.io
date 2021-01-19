@@ -1,0 +1,6 @@
+﻿cortex.surfinfo.thickness
+=========================
+
+.. currentmodule:: cortex.surfinfo
+
+.. autofunction:: thickness

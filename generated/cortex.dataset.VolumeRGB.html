@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cortex.dataset.VolumeRGB &#8212; pycortex 1.3.0.dev23 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="cortex-dataset-volumergb">
+<h1>cortex.dataset.VolumeRGB<a class="headerlink" href="#cortex-dataset-volumergb" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="cortex.dataset.VolumeRGB">
+<em class="property">class </em><code class="sig-prename descclassname">cortex.dataset.</code><code class="sig-name descname">VolumeRGB</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">channel1</span></em>, <em class="sig-param"><span class="n">channel2</span></em>, <em class="sig-param"><span class="n">channel3</span></em>, <em class="sig-param"><span class="n">subject</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xfmname</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">description</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">state</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">channel1color</span><span class="o">=</span><span class="default_value">(255, 0, 0)</span></em>, <em class="sig-param"><span class="n">channel2color</span><span class="o">=</span><span class="default_value">(0, 255, 0)</span></em>, <em class="sig-param"><span class="n">channel3color</span><span class="o">=</span><span class="default_value">(0, 0, 255)</span></em>, <em class="sig-param"><span class="n">max_color_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_color_saturation</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">shared_range</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">shared_vmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">shared_vmax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cortex/dataset/viewRGB.html#VolumeRGB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cortex.dataset.VolumeRGB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains RGB (or RGBA) colors for each voxel in a volumetric dataset.
+Includes information about the subject and transform for the data.</p>
+<p>Three data channels are mapped into a 3D color set. By default the data
+channels are mapped on to red, green, and blue. They can also be mapped to
+be different colors as specified, and then linearly combined.</p>
+<p>Each data channel is represented as a separate Volume object (these can
+either be supplied explicitly as Volume objects or implicitly as numpy
+arrays). The vmin for each Volume will be mapped to the minimum value for
+that data channel, and the vmax will be mapped to the maximum value.
+If <cite>shared_range</cite> is True, the vim and vmax will instead computed by
+combining all three data channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>channel1</strong><span class="classifier">ndarray or Volume</span></dt><dd><p>Array or Volume for the first data channel for each
+voxel. Can be a 1D or 3D array (see Volume for details), or a Volume.</p>
+</dd>
+<dt><strong>channel2</strong><span class="classifier">ndarray or Volume</span></dt><dd><p>Array or Volume for the second data channel for each
+voxel. Can be a 1D or 3D array (see Volume for details), or a Volume.</p>
+</dd>
+<dt><strong>channel3</strong><span class="classifier">ndarray or Volume</span></dt><dd><p>Array or Volume for the third data channel for or each
+voxel. Can be a 1D or 3D array (see Volume for details), or a Volume.</p>
+</dd>
+<dt><strong>subject</strong><span class="classifier">str, optional</span></dt><dd><p>Subject identifier. Must exist in the pycortex database. If not given,
+red must be a Volume from which the subject can be extracted.</p>
+</dd>
+<dt><strong>xfmname</strong><span class="classifier">str, optional</span></dt><dd><p>Transform name. Must exist in the pycortex database. If not given,
+red must be a Volume from which the subject can be extracted.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">ndarray or Volume, optional</span></dt><dd><p>Array or Volume that represents the alpha component of the color for each
+voxel. Can be a 1D or 3D array (see Volume for details), or a Volume. If
+None, all voxels will be assumed to have alpha=1.0.</p>
+</dd>
+<dt><strong>description</strong><span class="classifier">str, optional</span></dt><dd><p>String describing this dataset. Displayed in webgl viewer.</p>
+</dd>
+<dt><strong>state</strong><span class="classifier">optional</span></dt><dd><p>TODO: describe what this is</p>
+</dd>
+<dt><strong>channel1color</strong><span class="classifier">tuple&lt;uint8, uint8, uint8&gt;</span></dt><dd><p>RGB color to use for the first data channel</p>
+</dd>
+<dt><strong>channel2color</strong><span class="classifier">tuple&lt;uint8, uint8, uint8&gt;</span></dt><dd><p>RGB color to use for the second data channel</p>
+</dd>
+<dt><strong>channel3color</strong><span class="classifier">tuple&lt;uint8, uint8, uint8&gt;</span></dt><dd><p>RGB color to use for the third data channel</p>
+</dd>
+<dt><strong>max_color_value</strong><span class="classifier">float [0, 1], optional</span></dt><dd><p>Maximum HSV value for voxel colors. If not given, will be the value of
+the average of the three channel colors.</p>
+</dd>
+<dt><strong>max_color_saturation: float [0, 1]</strong></dt><dd><p>Maximum HSV saturation for voxel colors.</p>
+</dd>
+<dt><strong>shared_range</strong><span class="classifier">bool</span></dt><dd><p>Use the same vmin and vmax for all three color channels?</p>
+</dd>
+<dt><strong>shared_vmin</strong><span class="classifier">float, optional</span></dt><dd><p>Predetermined shared vmin. Does nothing if shared_range == False. If not given,
+will be the 1st percentil of all values across all three channels.</p>
+</dd>
+<dt><strong>shared_vmax</strong><span class="classifier">float, optional</span></dt><dd><p>Predetermined shared vmax. Does nothing if shared_range == False. If not given,
+will be the 99th percentile of all values across all three channels</p>
+</dd>
+<dt><strong>**kwargs</strong></dt><dd><p>All additional arguments in kwargs are passed to the VolumeData and
+Dataview.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.__init__.html#cortex.dataset.VolumeRGB.__init__" title="cortex.dataset.VolumeRGB.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(channel1, channel2, channel3[, …])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.color_voxels.html#cortex.dataset.VolumeRGB.color_voxels" title="cortex.dataset.VolumeRGB.color_voxels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">color_voxels</span></code></a>(channel1, channel2, channel3, …)</p></td>
+<td><p>Colors voxels in 3 color dimensions but not necessarily canonical red, green, and blue Parameters ———- channel1 : ndarray or Volume     voxel values for first channel channel2 : ndarray or Volume     voxel values for second channel channel3 : ndarray or Volume     voxel values for third channel channel1color : tuple&lt;uint8, uint8, uint8&gt;     color in RGB for first channel channel2color : tuple&lt;uint8, uint8, uint8&gt;     color in RGB for second channel channel3Color : tuple&lt;uint8, uint8, uint8&gt;     color in RGB for third channel value_max : float, optional     Maximum HSV value for voxel colors. If not given, will be the value of     the average of the three channel colors. saturation_max : float [0, 1]     Maximum HSV saturation for voxel colors. common_range : bool     Use the same vmin and vmax for all three color channels? common_min : float, optional     Predetermined shared vmin. Does nothing if shared_range == False. If not given,     will be the 1st percentile of all values across all three channels. common_max : float, optional     Predetermined shared vmax. Does nothing if shared_range == False. If not given,     will be the 99th percentile of all values across all three channels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.copy.html#cortex.dataset.VolumeRGB.copy" title="cortex.dataset.VolumeRGB.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.from_hdf.html#cortex.dataset.VolumeRGB.from_hdf" title="cortex.dataset.VolumeRGB.from_hdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_hdf</span></code></a>(node)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.to_json.html#cortex.dataset.VolumeRGB.to_json" title="cortex.dataset.VolumeRGB.to_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_json</span></code></a>([simple])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.uniques.html#cortex.dataset.VolumeRGB.uniques" title="cortex.dataset.VolumeRGB.uniques"><code class="xref py py-obj docutils literal notranslate"><span class="pre">uniques</span></code></a>([collapse])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.name.html#cortex.dataset.VolumeRGB.name" title="cortex.dataset.VolumeRGB.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.priority.html#cortex.dataset.VolumeRGB.priority" title="cortex.dataset.VolumeRGB.priority"><code class="xref py py-obj docutils literal notranslate"><span class="pre">priority</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.raw.html#cortex.dataset.VolumeRGB.raw" title="cortex.dataset.VolumeRGB.raw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">raw</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="VolumeRGB/cortex.dataset.VolumeRGB.volume.html#cortex.dataset.VolumeRGB.volume" title="cortex.dataset.VolumeRGB.volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">volume</span></code></a></p></td>
+<td><p>5-dimensional volume (t, z, y, x, rgba) with data that has been mapped into 8-bit unsigned integers that correspond to colors.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pycortex</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=gallantlab&repo=pycortex&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../segmentation_guide.html">Surface Segmentation and Flattening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database.html">Surface Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../align.html">Alignments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rois.html">Surface-defined ROIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transforms.html">Transform formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../colormaps.html">Colormaps</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Example Gallery</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference_flat.html">Python API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2012, James Gao.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/cortex.dataset.VolumeRGB.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

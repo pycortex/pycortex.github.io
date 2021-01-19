@@ -1,0 +1,6 @@
+﻿cortex.quickflat.make\_png
+==========================
+
+.. currentmodule:: cortex.quickflat
+
+.. autofunction:: make_png
