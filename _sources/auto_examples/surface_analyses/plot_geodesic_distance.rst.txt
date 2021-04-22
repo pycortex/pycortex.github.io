@@ -60,7 +60,7 @@ The two hemispheres must be run separately.
 
  .. code-block:: none
 
-    /home/travis/virtualenv/python3.8.7/lib/python3.8/site-packages/scipy/sparse/linalg/dsolve/linsolve.py:318: SparseEfficiencyWarning: splu requires CSC matrix format
+    /home/travis/virtualenv/python3.9.1/lib/python3.9/site-packages/scipy/sparse/linalg/dsolve/linsolve.py:318: SparseEfficiencyWarning: splu requires CSC matrix format
       warn('splu requires CSC matrix format', SparseEfficiencyWarning)
 
 
@@ -114,7 +114,7 @@ The two hemispheres must be run separately.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  34.055 seconds)
+   **Total running time of the script:** ( 0 minutes  26.437 seconds)
 
 
 .. _sphx_glr_download_auto_examples_surface_analyses_plot_geodesic_distance.py:

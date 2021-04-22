@@ -3,4 +3,4 @@
 
 .. currentmodule:: cortex.webgl
 
-.. autofunction:: show
+.. autodata:: show
